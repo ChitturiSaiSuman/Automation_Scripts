@@ -11,6 +11,8 @@ header += "Created: " + now + "\n"
 source = "/home/suman/Desktop/Templates/"
 files = os.listdir(source)
 path = input("Enter Path: ")
+contest_name = input("Contest Name: ")
+header += "Contest: " + contest_name + "\n"
 
 try:
     os.makedirs(path)
