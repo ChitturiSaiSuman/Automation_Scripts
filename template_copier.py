@@ -24,7 +24,6 @@ choice = input("Load Defaults?(Y/N): ")
 
 if choice in "YESYesyes":
     # Copy files for Global benefit
-    shutil.copy(source + "committer.sh", path+"/committer.sh")
 
     shutil.copy(source + "Default.c", path + "/Default.c")
     shutil.copy(source + "Default.cpp", path + "/Default.cpp")
