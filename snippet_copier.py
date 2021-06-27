@@ -18,7 +18,7 @@ print("Choice: ", end = "")
 index = int(input())
 
 if index == 2:
-    c_plus_plus_keys = c_plus_plus_functions.keys()
+    c_plus_plus_keys = list(c_plus_plus_functions.keys())
     for i in range(len(c_plus_plus_keys)):
         c_plus_plus_keys[i] = c_plus_plus_keys[i].lower()
 
