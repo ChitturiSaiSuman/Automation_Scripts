@@ -19,8 +19,6 @@ index = int(input())
 
 if index == 2:
     c_plus_plus_keys = list(c_plus_plus_functions.keys())
-    for i in range(len(c_plus_plus_keys)):
-        c_plus_plus_keys[i] = c_plus_plus_keys[i].lower()
 
     function_name = input("Which Function do you need?: ")
     function_name = list(map(str, function_name.lower().split()))
@@ -28,7 +26,7 @@ if index == 2:
     function_key = ""
 
     for function in c_plus_plus_keys:
-        if all([key_word in function for key_word in function_name]):
+        if all([key_word in function.lower() for key_word in function_name]):
             function_key = function
             break
 
