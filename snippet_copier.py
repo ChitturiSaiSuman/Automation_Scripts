@@ -1,6 +1,8 @@
 import pyperclip
+import sys
+sys.path.append("/home/suman/Automation_Scripts")
 
-from ....................home.suman.Automation_Scripts.C_PLUS_PLUS import *
+from C_PLUS_PLUS import *
 
 print("Select one from the following languages")
 
