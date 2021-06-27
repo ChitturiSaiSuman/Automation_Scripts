@@ -32,5 +32,5 @@ if index == 2:
             function_key = function
             break
 
-    pyperclip.copy(function_key)
+    pyperclip.copy(c_plus_plus_functions[function_key])
     pyperclip.waitForPaste(15)
