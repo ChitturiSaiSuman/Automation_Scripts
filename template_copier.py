@@ -100,9 +100,17 @@ if choice in "YESYesyes":
                         target.write(java_source)
 
 else:
-    name = input("Enter name of file: ")
-    os.system("touch " + path + "/" + name)
+    name_of_file = input("Name of file: ")
+    os.system("touch " + path + "/" + name_of_file)
+    if ".cpp" in name_of_file:
+        shutil.copy(source + "Default.cpp", path + "/" + name_of_file)
+    elif ".c" in name_of_file:
+        shutil.copy(source + "Default.c", path + "/" + name_of_file)
+    elif ".java" in name_of_file:
+        shutil.copy(source + "Main.java", path + "/" + name_of_file)
+    else:
+        shutil.copy(source + "Default.py", path + "/" + name_of_file)
 
 print("Opening {} in VS Code".format(path))
-os.system("code "+path)
+os.system("code " + path)
 print("Done")
