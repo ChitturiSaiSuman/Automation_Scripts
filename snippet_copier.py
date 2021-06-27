@@ -26,7 +26,7 @@ if index == 2:
     function_key = ""
 
     for function in c_plus_plus_keys:
-        if all([key_word in function.lower() for key_word in function_name]):
+        if all([key_word in function.lower() or key_word in c_plus_plus_functions[function].lower() for key_word in function_name]):
             function_key = function
             break
 
