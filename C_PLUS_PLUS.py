@@ -555,7 +555,7 @@ class Trie {
     }
 };
 """,
-    "Permutations and Combinations":
+    "Permutations and Combinations, factorials, inverses":
 """
 vector<ll> fact;
 vector<ll> inv_fact;
@@ -700,6 +700,129 @@ void matmul(vector<vector<ll>>& a, vector<vector<ll>>& b, vector<vector<ll>>& re
 """,
     "Fraction Matrix Multiplication":
 """
+class Fraction {
+    private:
+    ll GCD(ll a, ll b) {
+        for(ll rem; b > 0; rem = a % b, a = b, b = rem);
+        return a;
+    }
+    ll LCM(ll a, ll b) {
+        return (a * b) / GCD(a, b);
+    }
+	public:
+	ll num = 0, den = 1;
+	Fraction() {
+		num = 0;
+		den = 1;
+	};
+	Fraction(ll n) {
+		num = n;
+		den = 1;
+	};
+	Fraction(ll n, ll d) {
+		if(d == 0) {
+			throw invalid_argument("Expected Non-Zero denominator");
+		}
+		num = n;
+		den = d;
+		ll g = GCD(num, den);
+		num /= g;
+		den /= g;
+	};
+    Fraction(Fraction& f) {
+        num = f.num;
+        den = f.den;
+    };
+    Fraction(string s) {
+        int pos = s.find('/');
+        if(pos != string::npos) {
+            num = stoll(s.substr(0, pos));
+            den = stoll(s.substr(pos + 1, s.size()));
+            ll g = GCD(num, den);
+            num /= g;
+            den /= g;
+        }
+        else {
+            num = stoll(s);
+            den = 1;
+        }
+    };
+    operator string() const {
+		if(den == 1)
+			return to_string(num);
+		return to_string(num) + "/" + to_string(den);
+	}
+	Fraction operator + (const Fraction& frac) {
+		ll l = LCM(den, frac.den);
+		ll a = num * (l / den);
+		ll b = frac.num * (l / frac.den);
+		return Fraction(a + b, l);
+	}
+    void operator += (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f + frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator - (const Fraction& frac) {
+		ll l = LCM(den, frac.den);
+		ll a = num * (l / den);
+		ll b = frac.num * (l / frac.den);
+		return Fraction(a - b, l);
+	}
+    void operator -= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f - frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator * (const Fraction& frac) {
+		return Fraction(num * frac.num, den * frac.den);
+	}
+    void operator *= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f * frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator / (const Fraction& frac) {
+		return Fraction(num * frac.den, den * frac.num);
+	}
+    void operator /= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f / frac);
+        num = f.num;
+        den = f.den;
+    }
+    bool operator == (const Fraction& frac) {
+        return (frac.num == num && frac.den == den);
+    }
+    bool operator != (const Fraction& frac) {
+        return !(frac.num == num && frac.den == den);
+    }
+    bool operator < (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) < (frac.num * base/frac.den);
+    }
+    bool operator <= (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) <= (frac.num * base/frac.den);
+    }
+    bool operator > (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) > (frac.num * base/frac.den);
+    }
+    bool operator >= (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) >= (frac.num * base/frac.den);
+    }
+};
+ostream& operator << (ostream& out, const Fraction& f) {
+	if(f.den == 1)
+		return out << to_string(f.num);
+	return out << to_string(f.num) + "/" + to_string(f.den);
+}
+
 void matmul(vector<vector<Fraction>>& a, vector<vector<Fraction>>& b, vector<vector<Fraction>>& res) {
     int M = a.size();
     int N = a[0].size();
@@ -722,6 +845,26 @@ void matmul(vector<vector<Fraction>>& a, vector<vector<Fraction>>& b, vector<vec
 """,
     "Matrix Exponentiation":
 """
+void matmul(vector<vector<ll>>& a, vector<vector<ll>>& b, vector<vector<ll>>& res, ll p) {
+    int M = a.size();
+    int N = a[0].size();
+    int P = b[0].size();
+    vector<vector<ll>> result(M, vector<ll>(P));
+    for(int i = 0; i < M; i++) {
+        for(int j = 0; j < P; j++) {
+            result[i][j] = 0;
+            for(int k = 0; k < N; k++) {
+                result[i][j] = (result[i][j] % p + (a[i][k] % p * b[k][j] % p) % p) % p;
+            }
+        }
+    }
+    for(int i = 0; i < M; i++) {
+        for(int j = 0; j < P; j++) {
+            res[i][j] = result[i][j];
+        }
+    }
+}
+
 vector<vector<ll>> power(vector<vector<ll>>& a, ll y, ll p) {
     vector<vector<ll>> result(a.size(), vector<ll>(a.size(), 0));
     for(int i = 0; i < a.size(); i++) {
@@ -737,6 +880,149 @@ vector<vector<ll>> power(vector<vector<ll>>& a, ll y, ll p) {
 """,
     "Fraction Matrix Exponentiation":
 """
+class Fraction {
+    private:
+    ll GCD(ll a, ll b) {
+        for(ll rem; b > 0; rem = a % b, a = b, b = rem);
+        return a;
+    }
+    ll LCM(ll a, ll b) {
+        return (a * b) / GCD(a, b);
+    }
+	public:
+	ll num = 0, den = 1;
+	Fraction() {
+		num = 0;
+		den = 1;
+	};
+	Fraction(ll n) {
+		num = n;
+		den = 1;
+	};
+	Fraction(ll n, ll d) {
+		if(d == 0) {
+			throw invalid_argument("Expected Non-Zero denominator");
+		}
+		num = n;
+		den = d;
+		ll g = GCD(num, den);
+		num /= g;
+		den /= g;
+	};
+    Fraction(Fraction& f) {
+        num = f.num;
+        den = f.den;
+    };
+    Fraction(string s) {
+        int pos = s.find('/');
+        if(pos != string::npos) {
+            num = stoll(s.substr(0, pos));
+            den = stoll(s.substr(pos + 1, s.size()));
+            ll g = GCD(num, den);
+            num /= g;
+            den /= g;
+        }
+        else {
+            num = stoll(s);
+            den = 1;
+        }
+    };
+    operator string() const {
+		if(den == 1)
+			return to_string(num);
+		return to_string(num) + "/" + to_string(den);
+	}
+	Fraction operator + (const Fraction& frac) {
+		ll l = LCM(den, frac.den);
+		ll a = num * (l / den);
+		ll b = frac.num * (l / frac.den);
+		return Fraction(a + b, l);
+	}
+    void operator += (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f + frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator - (const Fraction& frac) {
+		ll l = LCM(den, frac.den);
+		ll a = num * (l / den);
+		ll b = frac.num * (l / frac.den);
+		return Fraction(a - b, l);
+	}
+    void operator -= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f - frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator * (const Fraction& frac) {
+		return Fraction(num * frac.num, den * frac.den);
+	}
+    void operator *= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f * frac);
+        num = f.num;
+        den = f.den;
+    }
+	Fraction operator / (const Fraction& frac) {
+		return Fraction(num * frac.den, den * frac.num);
+	}
+    void operator /= (const Fraction& frac) {
+        Fraction f = Fraction(num, den);
+        f = (f / frac);
+        num = f.num;
+        den = f.den;
+    }
+    bool operator == (const Fraction& frac) {
+        return (frac.num == num && frac.den == den);
+    }
+    bool operator != (const Fraction& frac) {
+        return !(frac.num == num && frac.den == den);
+    }
+    bool operator < (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) < (frac.num * base/frac.den);
+    }
+    bool operator <= (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) <= (frac.num * base/frac.den);
+    }
+    bool operator > (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) > (frac.num * base/frac.den);
+    }
+    bool operator >= (const Fraction& frac) {
+        ll base = LCM(den, frac.den);
+        return (num * base/den) >= (frac.num * base/frac.den);
+    }
+};
+ostream& operator << (ostream& out, const Fraction& f) {
+	if(f.den == 1)
+		return out << to_string(f.num);
+	return out << to_string(f.num) + "/" + to_string(f.den);
+}
+
+void matmul(vector<vector<Fraction>>& a, vector<vector<Fraction>>& b, vector<vector<Fraction>>& res) {
+    int M = a.size();
+    int N = a[0].size();
+    int P = b[0].size();
+    vector<vector<Fraction>> result(M, vector<Fraction>(P));
+    for(int i = 0; i < M; i++) {
+        for(int j = 0; j < P; j++) {
+            result[i][j] = 0;
+            for(int k = 0; k < N; k++) {
+                result[i][j] = result[i][j] + a[i][k] * b[k][j];
+            }
+        }
+    }
+    for(int i = 0; i < M; i++) {
+        for(int j = 0; j < P; j++) {
+            res[i][j] = result[i][j];
+        }
+    }
+}
+
 vector<vector<Fraction>> power(vector<vector<Fraction>>& a, ll y) {
     vector<vector<Fraction>> result(a.size(), vector<Fraction>(a.size(), 0));
     for(int i = 0; i < a.size(); i++) {
