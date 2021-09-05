@@ -98,7 +98,10 @@ if choice in "YESYesyes":
                     with open(path + "/" + file, "r") as target:
                         pre += target.read()
                     with open(path + "/" + file, "w") as target:
-                        pre = '"""\n' + header + '"""\n' + pre
+                        if ".cpp" in file:
+                            pre = '/*\n' + header + '*/\n' + pre
+                        else:
+                            pre = '"""\n' + header + '"""\n' + pre
                         target.write(pre)
 
                 elif ".py" in file:
