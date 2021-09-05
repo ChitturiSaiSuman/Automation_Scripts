@@ -82,6 +82,7 @@ if choice in "YESYesyes":
                 file.write(cpp_source)
 
         local = ["debug.py", "generator.py", "input.in", "output.out", "run.py"]
+        local += ["generator.cpp", "out1.out", "out2.out", "stress_test.sh", "output.out"]
 
         if not only_cpp:
             local += ["test.c", "test.cpp", "test.java", "test.py"]
