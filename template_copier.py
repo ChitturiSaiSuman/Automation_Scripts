@@ -81,8 +81,7 @@ if choice in "YESYesyes":
             with open(path + "/p" + str(count) + ".cpp", "w") as file:
                 file.write(cpp_source)
 
-        local = ["debug.py", "err.err", "generator.py", "in.in", "out.out", "out1.out"]
-        local += ["out2.out", "run.py", "verify.py"]
+        local = ["debug.py", "generator.py", "input.in", "output.out", "run.py"]
 
         if not only_cpp:
             local += ["test.c", "test.cpp", "test.java", "test.py"]
