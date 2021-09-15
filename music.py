@@ -16,7 +16,7 @@ from sys import argv
 # get the text from audio
 #msg = r.recognize_google(audio)
 
-msg = argv[1]
+msg = ' '.join(argv[1:])
 
 # song name from user
 song = urllib.parse.urlencode({"search_query" : msg})
