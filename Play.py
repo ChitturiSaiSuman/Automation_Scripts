@@ -5,7 +5,7 @@ import os
 import sys
 
 vlc_files = [".flac",".mp3",".wav",".mp4",".og"]
-os.chdir("/home/suman/")
+os.chdir("/home/suman/Music")
 dir_path = os.path.dirname(os.path.realpath("."))
 keys = sys.argv[1:]
 results = []
