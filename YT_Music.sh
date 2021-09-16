@@ -1,1 +1,1 @@
-youtube-dl -f bestaudio  ytsearch:"$1" -o - 2>/dev/null | ffplay -nodisp -autoexit -i - &>/dev/null
+youtube-dl -f bestaudio  ytsearch:"$*" -o - 2>/dev/null | ffplay -nodisp -autoexit -i - &>/dev/nulls
