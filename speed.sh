@@ -3,6 +3,6 @@
 while true
 do
 lscpu | grep "MHz";
-sleep 0.123456;
+sleep 0.2;
 clear;
 done
