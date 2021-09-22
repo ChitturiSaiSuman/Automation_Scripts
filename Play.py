@@ -1,26 +1,18 @@
-#!/usr/bin/python3
-# Plays Music in VLC
-# Dependencies: Aliasing
+from subprocess import run
+from sys import argv
 import os
-import sys
 
-vlc_files = [".flac",".mp3",".wav",".mp4",".og"]
-os.chdir("/home/suman/Music")
-dir_path = os.path.dirname(os.path.realpath("."))
-keys = sys.argv[1:]
-results = []
-for root,dirs,files in os.walk(dir_path):
-    for file in files:
-        if all([item.lower() in str(file).lower() for item in keys]) and any([format in file for format in vlc_files]):
-            temp = (root+'/'+str(file))
-            results.append(os.path.realpath(temp))
-for i in range(len(results)):
-    print(i+1,results[i])
-if len(results)==1:
-    index = 1
-else:
-    index = int(input("Enter Index: "))
-file = results[index-1]
-if any([i in file for i in vlc_files]):
-    file = '"'+file+'"'
-    os.system("vlc "+file)
+out = run(['find', '/home/suman/Music'], capture_output = True)
+out = out.stdout.decode()
+out = list(map(str, out.split('\n')))
+
+song_keys = argv[1:]
+path = ""
+for item in out:
+    if all([key.lower() in item.lower() for key in song_keys]):
+        path = item
+        break
+
+print(os.path.realpath(path))
+
+run(['vlc', os.path.realpath(path)])
