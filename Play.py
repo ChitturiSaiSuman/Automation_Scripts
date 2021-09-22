@@ -15,4 +15,4 @@ for item in out:
 
 print(os.path.realpath(path))
 
-run(['vlc', os.path.realpath(path)])
+run(['cvlc', os.path.realpath(path)])
