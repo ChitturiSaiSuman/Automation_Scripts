@@ -6,7 +6,7 @@ import datetime
 now = datetime.datetime.now()
 now = str(now.strftime("%Y-%m-%d %H:%M:%S"))
 header = "Author: Chitturi Sai Suman\n"
-header += "Partner: Github Copilot\n"
+header += "Powered by: Github Copilot\n"
 header += "Created: " + now + "\n"
 
 source = "/home/suman/Desktop/Templates/"
