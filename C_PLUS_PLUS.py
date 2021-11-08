@@ -3,7 +3,10 @@ c_plus_plus_functions = {
 """
 
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 #define FOR(x, N)					for(int x = 0; x < N; x++)
 #define inverse(a, p)				power(a, p - 2, p)
@@ -24,7 +27,7 @@ static inline ll gcd(ll a, ll b) {
 	return a;
 }
 static inline ll lcm(ll a, ll b) {
-	return (a * b) / gcd(a, b);
+	return (a / gcd(a, b)) * b;
 }
 
 #define nax 2000003
