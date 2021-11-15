@@ -1,6 +1,5 @@
 # Commit changes to Main Branch
 #!/usr/bin/env bash
-# Testing this script
 git config --global user.name "ChitturiSaiSuman"
 git config --global user.email "saisumanchitturi@gmail.com"
 git add .
