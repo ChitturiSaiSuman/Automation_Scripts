@@ -21,6 +21,6 @@ for i in range(len(paths)):
 
 index = int(input("Enter index: "))
 
-print(os.path.realpath(paths[index - 1]))
+print("Playing: " + str(os.path.realpath(paths[index - 1])))
 
 run(['vlc', os.path.realpath(paths[index - 1])])
