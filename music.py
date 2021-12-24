@@ -1,6 +1,6 @@
 """ This program plays the music and videos from youtube """
 
-import speech_recognition as sr
+# import speech_recognition as sr
 import webbrowser
 import urllib.request
 import urllib.parse

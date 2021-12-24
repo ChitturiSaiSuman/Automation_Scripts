@@ -1,26 +1,46 @@
 from subprocess import run
 from sys import argv
 import os
+from gtts import gTTS
 
-out = run(['find', '/home/suman/Music'], capture_output = True)
-out = out.stdout.decode()
-out = list(map(str, out.split('\n')))
+def parse_arguments():
+	query_keys = argv[1:]
+	query_keys = [key.lower().strip() for key in query_keys]
+	return query_keys
 
-song_keys = argv[1:]
-paths = []
-for item in out:
-    if all([key.lower() in item.lower() for key in song_keys]):
-        paths.append(item)
+def pre_process():
+	database = run(['find', '/home/suman/Music'], capture_output = True)
+	database = database.stdout.decode()
+	database = list(map(str, database.split('\n')))
+	return database
 
-if paths == []:
-	print("Song not found")
-	exit(0)
+def speak(text):
+	obj = gTTS(text = text, lang = 'en', slow = False)
+	obj.save("/home/suman/Jarvis/voice.mp3")
+	os.system("mpg321 /home/suman/Jarvis/voice.mp3")
+	os.system("rm /home/suman/Jarvis/voice.mp3")
 
-for i in range(len(paths)):
-	print(str(i + 1) + "). " + paths[i])
+def play_song(path):
+	run(['vlc', os.path.realpath(path)])
 
-index = int(input("Enter index: "))
+def search(keys, database):
+	matched = []
+	for path in database:
+		count = 0
+		for item in keys:
+			if item in path.lower():
+				count += 1
+		matched.append([count, path])
+	matched.sort(reverse = True)
+	return matched
 
-print("Playing: " + str(os.path.realpath(paths[index - 1])))
 
-run(['vlc', os.path.realpath(paths[index - 1])])
+if __name__ == '__main__':
+	query_keys = parse_arguments()
+	database = pre_process()
+	matched = search(query_keys, database)
+	if matched[0][0] == 0:
+		speak("Sorry, I couldn't find any song")
+	else:
+		speak("Playing " + ' '.join(query_keys))
+		play_song(matched[0][1])
