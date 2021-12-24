@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	database = pre_process()
 	matched = search(query_keys, database)
 	if matched[0][0] == 0:
-		speak("Sorry, I couldn't find any song")
+		speak("Sorry, I couldn't find any song in your machine")
 		speak("Playing " + ' '.join(query_keys) + " on youtube")
 		play_youtube(' '.join(query_keys))
 	else:
