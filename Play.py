@@ -20,8 +20,11 @@ def speak(text):
 	os.system("mpg321 /home/suman/Jarvis/voice.mp3")
 	os.system("rm /home/suman/Jarvis/voice.mp3")
 
-def play_song(path):
+def play_local(path):
 	run(['vlc', os.path.realpath(path)])
+
+def play_youtube(query):
+	run(['python3', '/home/suman/Automation_Scripts/music.py', query])
 
 def search(keys, database):
 	matched = []
@@ -41,6 +44,8 @@ if __name__ == '__main__':
 	matched = search(query_keys, database)
 	if matched[0][0] == 0:
 		speak("Sorry, I couldn't find any song")
+		speak("Playing " + ' '.join(query_keys) + " on youtube")
+		play_youtube(' '.join(query_keys))
 	else:
-		speak("Playing " + ' '.join(query_keys))
-		play_song(matched[0][1])
+		speak("Playing " + ' '.join(query_keys) + " on your local music")
+		play_local(matched[0][1])
