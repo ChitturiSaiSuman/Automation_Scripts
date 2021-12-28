@@ -226,12 +226,12 @@ def initialise_workplace(meta_data: dict) -> None:
 if __name__ == '__main__':
 
     now = datetime.datetime.now()
-    now = str(now.strftime("%Y-%m-%d %H:%M:%S"))
+    now_str = str(now.strftime("%Y-%m-%d %H:%M:%S"))
 
     contest_link = input(Fore.YELLOW + "\nEnter Contest Link: " + Fore.WHITE)
     print()
     meta_data = extract_meta_data(contest_link)
-    meta_data['time'] = now
+    meta_data['time'] = now_str
 
     initialise_workplace(meta_data)
-    print(Fore.YELLOW + "\nScrape time: " + Fore.GREEN + str((datetime.datetime.now() - now).total_seconds()) + " seconds\n")
+    print(Fore.YELLOW + "\nScrape time: " + Fore.GREEN + "" + str((datetime.datetime.now() - now).total_seconds()) + " seconds\n")
