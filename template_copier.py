@@ -66,9 +66,13 @@ def extract_problem_links(contest_link: str) -> list:
     problem_links = []
 
     for link in all_links:
-        link = str(link.get_attribute('href'))
-        if link.startswith(prefix):
-            problem_links.append(link)
+        try:
+            link = str(link.get_attribute('href'))
+            if link.startswith(prefix):
+                problem_links.append(link)
+        except:
+            print(Fore.RED + "Attempt to Extract failed. Retrying...", flush = True)
+            return []
     
     driver.quit()
     print(Fore.GREEN + "Done", flush = True)
@@ -224,6 +228,8 @@ def initialise_workplace(meta_data: dict) -> None:
 
 
 if __name__ == '__main__':
+
+    os.system("clear")
 
     now = datetime.datetime.now()
     now_str = str(now.strftime("%Y-%m-%d %H:%M:%S"))
