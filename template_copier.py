@@ -75,6 +75,9 @@ def extract_problem_links(contest_link: str) -> list:
             return []
     
     driver.quit()
+    if problem_links == []:
+        print(Fore.RED + "Attempt to Extract failed. Retrying...", flush = True)
+        return []
     print(Fore.GREEN + "Done", flush = True)
     return problem_links
 
