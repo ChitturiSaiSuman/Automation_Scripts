@@ -14,7 +14,7 @@ from colorama import Fore
 
 def get_samples(problem_link: str) -> list:
 
-    print(Fore.YELLOW + "Extracting samples for " + problem_link + "...", end = "", flush = True)
+    print(Fore.YELLOW + "Extracting samples for " + problem_link + " ...", end = "", flush = True)
 
     xpath = "//body/div[@id='ember-root']/div[@id='ember242']/div[@id='ember251']/main[@id='content-regions']/section[1]/div[1]/span[3]/pre[1]"
 
