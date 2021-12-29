@@ -2,19 +2,16 @@
 import os
 import shutil
 import datetime
+import concurrent.futures
+from colorama import Fore
 
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
-
-from colorama import Fore
 
 
 def get_samples(problem_link: str) -> list:
-
-    print(Fore.YELLOW + "Extracting samples for " + problem_link + " ...", end = "", flush = True)
 
     xpath = "//body/div[@id='ember-root']/div[@id='ember242']/div[@id='ember251']/main[@id='content-regions']/section[1]/div[1]/span[3]/pre[1]"
 
@@ -40,13 +37,12 @@ def get_samples(problem_link: str) -> list:
             break
 
     driver.quit()
-    print(Fore.GREEN + "Done", flush = True)
+    print(Fore.YELLOW + "Extracting samples for " + problem_link + " ... " + Fore.GREEN + "Done")
     return samples
 
 
-
 def extract_problem_links(contest_link: str) -> list:
-    print(Fore.CYAN + "Extracting problem links...", end = "", flush = True)
+    print(Fore.CYAN + "Extracting problem links... ", end = "", flush = True)
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     driver = webdriver.Chrome(options = options)
@@ -71,19 +67,19 @@ def extract_problem_links(contest_link: str) -> list:
             if link.startswith(prefix):
                 problem_links.append(link)
         except:
-            print(Fore.RED + "Attempt to Extract failed. Retrying...", flush = True)
+            print(Fore.RED + "Attempt to Extract failed. Retrying... ", flush = True)
             return []
     
     driver.quit()
     if problem_links == []:
-        print(Fore.RED + "Attempt to Extract failed. Retrying...", flush = True)
+        print(Fore.RED + "Attempt to Extract failed. Retrying... ", flush = True)
         return []
     print(Fore.GREEN + "Done", flush = True)
     return problem_links
 
 
 def get_contest_name(contest_link: str) -> str:
-    print(Fore.YELLOW + "Extracting contest name...", end = "", flush = True)
+    print(Fore.YELLOW + "Extracting contest name... ", end = "", flush = True)
     options = webdriver.ChromeOptions()
     options.add_argument('headless')
     driver = webdriver.Chrome(options = options)
@@ -129,10 +125,10 @@ def extract_meta_data(contest_link: str) -> dict:
     # Problem Codes
     problem_codes = get_problem_codes(problem_links)
 
-    # Problem Samples
-    problem_samples = []
-    for link in problem_links:
-        problem_samples.append(get_samples(link))
+    with concurrent.futures.ThreadPoolExecutor(max_workers = len(problem_links)) as executor:
+        results = executor.map(get_samples, problem_links)
+
+    problem_samples = list(results)
 
     # Problem Meta Data
     meta_data = {}
@@ -155,7 +151,7 @@ def copy_default_files(path_to_workplace, path_to_templates) -> None:
 
 def create_problem(path_to_workplace: str, default_source: str, header: str, problem_link: str, problem_code: str, test_cases: list) -> None:
     path_to_file = path_to_workplace + "/" + problem_code + ".cpp"
-    print(Fore.YELLOW + "Creating files for " + problem_code + "...", end = "", flush = True)
+    print(Fore.YELLOW + "Creating files for " + problem_code + "... ", end = "", flush = True)
 
     with open(path_to_file, 'w') as file:
         problem_link = "Problem: " + problem_link + "\n"
@@ -204,7 +200,7 @@ def initialise_workplace(meta_data: dict) -> None:
     path_to_workplace = '/home/suman/' + meta_data['contest_code']
     path_to_templates = '/home/suman/Desktop/Templates'
 
-    print(Fore.YELLOW + "\nCreating workplace " + path_to_workplace + "...", end = "", flush = True)
+    print(Fore.YELLOW + "\nCreating workplace " + path_to_workplace + "... ", end = "", flush = True)
 
     try:
         os.makedirs(path_to_workplace)
@@ -225,7 +221,7 @@ def initialise_workplace(meta_data: dict) -> None:
         create_problem(path_to_workplace, default_source, header, problem_link, problem_code, test_cases)
 
     print()
-    print(Fore.YELLOW + "Opening " + path_to_workplace + " in Code...", end = "", flush = True)
+    print(Fore.YELLOW + "Opening " + path_to_workplace + " in Code... ", end = "", flush = True)
     os.system("code " + path_to_workplace)
     print(Fore.GREEN + "Done" + Fore.WHITE, flush = True)
 
