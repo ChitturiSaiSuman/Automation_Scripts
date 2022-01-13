@@ -17,7 +17,7 @@ def pre_process():
 def speak(text):
 	obj = gTTS(text = text, lang = 'en', slow = False)
 	obj.save("/home/suman/Jarvis/voice.mp3")
-	os.system("mpg321 /home/suman/Jarvis/voice.mp3")
+	os.system("mpg123 /home/suman/Jarvis/voice.mp3")
 	os.system("rm /home/suman/Jarvis/voice.mp3")
 
 def play_local(path):

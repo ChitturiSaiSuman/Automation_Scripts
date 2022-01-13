@@ -3,7 +3,7 @@ import pyperclip
 import csv
 import sys
 
-filename = "/home/suman/Documents/Chrome Passwords latest.csv"
+filename = "/home/suman/Documents/Chrome Passwords/Passwords.csv"
 
 with open(filename, 'r') as file:
     reader = csv.reader(file)

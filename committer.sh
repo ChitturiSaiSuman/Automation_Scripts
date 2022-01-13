@@ -13,5 +13,10 @@ python3 /home/suman/Automation_Scripts/Copy.py /home/suman/Git/Token.txt
 
 git push
 echo "Uploaded Successfully"
+
+touch git_sample.txt
+xclip -sel c < git_sample.txt
+rm git_sample.txt
+
 sleep 5
 clear
