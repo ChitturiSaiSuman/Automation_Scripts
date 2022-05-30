@@ -1,8 +1,8 @@
-# Shows current clock speed of CPU in MHz
+# Shows the Current Status of Primary Memory Usage
 # To stop execution, press the key Combination CTRL + C
 while true
 do
-lscpu | grep "MHz";
+free -m;
 sleep 0.33;
 clear;
 done
