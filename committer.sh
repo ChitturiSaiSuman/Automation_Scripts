@@ -3,6 +3,7 @@
 git config --global user.name "ChitturiSaiSuman"
 git config --global user.email "saisumanchitturi@gmail.com"
 
+git reset --mixed origin/main
 git add .
 git status
 read -p 'Commit Message: ' message
