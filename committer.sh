@@ -17,6 +17,3 @@ echo "Uploaded Successfully"
 touch empty.txt
 xclip -sel c < empty.txt
 rm empty.txt
-
-sleep 5
-clear
