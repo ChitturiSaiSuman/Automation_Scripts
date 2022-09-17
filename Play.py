@@ -21,7 +21,7 @@ def speak(text):
 	os.system("rm /home/suman/Jarvis/voice.mp3")
 
 def play_local(path):
-	run(['vlc', os.path.realpath(path)])
+	run(['vlc', os.path.realpath(path), '&'])
 
 def play_youtube(query):
 	run(['python3', '/home/suman/Automation_Scripts/music.py', query])
