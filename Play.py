@@ -9,10 +9,10 @@ def parse_arguments():
 	return query_keys
 
 def pre_process():
-	database = run(['find', '/home/suman/Music'], capture_output = True)
-	database = database.stdout.decode()
-	database = list(map(str, database.split('\n')))
-	return database
+	db = run(['find', '/home/suman/Music'], capture_output = True)
+	db = db.stdout.decode()
+	db = list(map(str, db.split('\n')))
+	return db
 
 def speak(text):
 	obj = gTTS(text = text, lang = 'en', slow = False)
@@ -26,9 +26,9 @@ def play_local(path):
 def play_youtube(query):
 	run(['python3', '/home/suman/Automation_Scripts/music.py', query])
 
-def search(keys, database):
+def search(keys, db):
 	matched = []
-	for path in database:
+	for path in db:
 		count = 0
 		for item in keys:
 			if item in path.lower():
@@ -40,12 +40,14 @@ def search(keys, database):
 
 if __name__ == '__main__':
 	query_keys = parse_arguments()
-	database = pre_process()
-	matched = search(query_keys, database)
+	db = pre_process()
+	matched = search(query_keys, db)
 	if matched[0][0] == 0:
-		speak("Sorry, I couldn't find any song in your machine")
+		speak("Sorry, I couldn't find any song on your machine")
 		speak("Playing " + ' '.join(query_keys) + " on youtube")
 		play_youtube(' '.join(query_keys))
+	elif '.ogg' in matched[0][1]:
+		pass
 	else:
 		speak("Playing " + ' '.join(query_keys) + " on your local music")
 		play_local(matched[0][1])

@@ -2,7 +2,7 @@
 # To stop execution, press the key Combination CTRL + C
 while true
 do
-lscpu | grep "MHz";
+lscpu | grep "CPU MHz";
 sleep 0.33;
 clear;
 done
